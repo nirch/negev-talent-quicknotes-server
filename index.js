@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const PORT = 8080;
+const notesRouter = require('./routes/notesRoutes');
 
 // Middleware that parses JSON for every route
 app.use(express.json());
@@ -11,25 +12,13 @@ app.get("/", (req, res) => {
   res.send("Hello Express!");
 });
 
-app.get("/notes", (req, res) => {
-  res.status(200).send("Hello Notes!");
-});
+app.use("/notes", notesRouter);
 
-app.get("/notes/:id", (req, res) => {
-  const noteId = req.params.id;
-  res.status(200).json({
-    id: noteId,
-    content: "Hello Get Specific Note"
-  });
-});
 
 // Multiple Routes Params
 // app.get("/post/:postId/comments/:commentId", (req, res) => {
 // });
 
-app.post("/notes", (req, res) => {
-  res.status(201).json({ content: "Hello Create Notes!" });
-});
 
 app.get("/demo", (req, res) => {
   console.log("Headers:", req.headers);
