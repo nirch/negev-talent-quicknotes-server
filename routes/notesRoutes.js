@@ -3,8 +3,8 @@ const { getNotes, getNoteById, addNote } = require("../controllers/notesControll
 const router = express.Router();
 
 
-router.get("/", getNotes);
-router.get("/:id", getNoteById);
-router.post("/", addNote);
+router.get("/", getNotes);              // GET /notes/
+router.get("/:id", getNoteById);        // GET /notes/:id
+router.post("/", addNote);              // POST /notes
 
 module.exports = router;
