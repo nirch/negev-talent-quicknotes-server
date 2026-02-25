@@ -5,7 +5,7 @@ const notesRouter = require('./routes/notesRoutes');
 
 // Middleware that parses JSON for every route
 app.use(express.json());
-
+app.use(express.static("public"));
 
 // Routes
 app.get("/", (req, res) => {
