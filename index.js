@@ -40,6 +40,16 @@ app.all(/^(.*)$/, (req, res) => {
   res.status(404).send("Page not found");
 })
 
+
+// Error Handling Middleware (always in the END)
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || "Server Error",
+  });
+});
+
+
 // Running the server
 app.listen(PORT, () => {
   console.log("Server is listening on port " + PORT);

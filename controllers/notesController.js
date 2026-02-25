@@ -8,9 +8,12 @@ async function getNotes(req, res) {
 async function getNoteById(req, res) {
   const noteId = req.params.id;
   const note = await notesModel.getNoteById(noteId);
-  note ?
-    res.status(200).json(note) :
-    res.status(404).json({ success: false, message: "Note not found" });
+
+  if (!note) {
+    throw { ...new Error("Not not found"), status: 404 };
+  }
+
+  res.status(200).json(note)
 }
 
 async function addNote(req, res) {
