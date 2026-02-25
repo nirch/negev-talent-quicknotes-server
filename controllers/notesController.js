@@ -5,13 +5,12 @@ async function getNotes(req, res) {
   res.status(200).json(notes);
 }
 
-function getNoteById(req, res) {
+async function getNoteById(req, res) {
   const noteId = req.params.id;
-  res.status(200).json({
-    id: noteId,
-    content: "Hello Get Specific Note"
-  });
-
+  const note = await notesModel.getNoteById(noteId);
+  note ?
+    res.status(200).json(note) :
+    res.status(404).json({ success: false, message: "Note not found" });
 }
 
 function addNote(req, res) {
