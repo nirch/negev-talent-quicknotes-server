@@ -4,12 +4,14 @@ require('dotenv').config();
 const cors = require('cors');
 const PORT = process.env.PORT ? process.env.PORT : 3000;
 const notesRouter = require('./routes/notesRoutes');
+const { logger } = require("./middlewares/logger");
 
 
 // Middleware that parses JSON for every route
 app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
+app.use(logger);
 
 // Routes
 app.get("/", (req, res) => {
