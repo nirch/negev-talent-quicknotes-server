@@ -13,8 +13,10 @@ async function getNoteById(req, res) {
     res.status(404).json({ success: false, message: "Note not found" });
 }
 
-function addNote(req, res) {
-  res.status(201).json({ content: "Hello Create Notes!" });
+async function addNote(req, res) {
+  const noteDraft = req.body;
+  const newNote = await notesModel.addNote(noteDraft);
+  res.status(201).json(newNote);
 }
 
 module.exports = { getNotes, getNoteById, addNote }
