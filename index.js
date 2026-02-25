@@ -1,10 +1,13 @@
 const express = require("express");
 const app = express();
 require('dotenv').config();
+const cors = require('cors');
 const PORT = process.env.PORT ? process.env.PORT : 3000;
 const notesRouter = require('./routes/notesRoutes');
 
+
 // Middleware that parses JSON for every route
+app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
