@@ -1,6 +1,4 @@
-const fs = require("fs");
 const { sequelize } = require("../db/models/index.js");
-const { nanoid } = require("nanoid");
 
 async function getNotes() {
   const [results] = await sequelize.query("SELECT * FROM notes");
@@ -20,15 +18,20 @@ async function getNoteById(id) {
 }
 
 async function addNote(newNote) {
-  newNote.date = new Date();
-  newNote.id = nanoid(7);
+  const query = `
+  INSERT INTO notes (title, text, date)
+  VALUES (:title, :text, NOW())
+  RETURNING id
+  `
 
-  const notes = await getNotes();
-  notes.push(newNote);
+  const [createdId] = await sequelize.query(query, {
+    replacements: {
+      title: newNote.title,
+      text: newNote.text
+    }
+  });
 
-  await fs.promises.writeFile("./data/notes.json", JSON.stringify(notes));
-
-  return newNote;
+  return await getNoteById(createdId[0].id);
 }
 
 module.exports = { getNotes, getNoteById, addNote };
