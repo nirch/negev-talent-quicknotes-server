@@ -1,9 +1,10 @@
 const fs = require("fs");
+const { sequelize } = require("../db/models/index.js");
 const { nanoid } = require("nanoid");
 
 async function getNotes() {
-  const data = await fs.promises.readFile("./data/notes.json");
-  return JSON.parse(data);
+  const [results] = await sequelize.query("SELECT * FROM notes");
+  return results;
 }
 
 async function getNoteById(id) {
