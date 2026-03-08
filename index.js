@@ -5,6 +5,7 @@ const cors = require('cors');
 const PORT = process.env.PORT ? process.env.PORT : 3000;
 const notesRouter = require('./routes/notesRoutes');
 const { logger } = require("./middlewares/logger");
+const { sequelize } = require("./db/models/index.js");
 
 
 // Middleware that parses JSON for every route
@@ -14,17 +15,14 @@ app.use(express.static("public"));
 app.use(logger);
 
 // Routes
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+  const [results, metadata] = await sequelize.query("SELECT * FROM test_connection;");
+  console.log(results);
+  // console.log(metadata);
   res.send("Hello Express!");
 });
 
 app.use("/notes", notesRouter);
-
-
-// Multiple Routes Params
-// app.get("/post/:postId/comments/:commentId", (req, res) => {
-// });
-
 
 app.get("/demo", (req, res) => {
   console.log("Headers:", req.headers);
@@ -40,7 +38,6 @@ app.all(/^(.*)$/, (req, res) => {
   res.status(404).send("Page not found");
 })
 
-
 // Error Handling Middleware (always in the END)
 app.use((err, req, res, next) => {
   res.status(err.status || 500).json({
@@ -50,7 +47,19 @@ app.use((err, req, res, next) => {
 });
 
 
+async function dbConnect() {
+  try {
+    await sequelize.authenticate();
+    console.log('✅ Database connection established successfully.');
+  } catch (error) {
+    console.error('❌ Unable to connect to database:', error);
+  }
+}
+
+
+
 // Running the server
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log("Server is listening on port " + PORT);
+  await dbConnect();
 });
