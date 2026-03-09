@@ -1,7 +1,13 @@
 const { sequelize } = require("../db/models/index.js");
 
-async function getNotes() {
-  const [results] = await sequelize.query("SELECT * FROM notes");
+async function getNotes(userId) {
+  const query = `
+  SELECT *
+  FROM notes
+  WHERE user_id = :userId
+  `;
+
+  const [results] = await sequelize.query(query, { replacements: { userId } });
   return results;
 }
 
