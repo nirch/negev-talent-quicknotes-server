@@ -23,10 +23,10 @@ async function getNoteById(id) {
   return results[0];
 }
 
-async function addNote(newNote, userId) {
+async function addNote(newNote, userId, filePath) {
   const query = `
-  INSERT INTO notes (title, text, date, user_id)
-  VALUES (:title, :text, NOW(), :userId)
+  INSERT INTO notes (title, text, date, user_id, image_url)
+  VALUES (:title, :text, NOW(), :userId, :filePath)
   RETURNING id
   `
 
@@ -34,7 +34,8 @@ async function addNote(newNote, userId) {
     replacements: {
       title: newNote.title,
       text: newNote.text,
-      userId
+      userId,
+      filePath
     }
   });
 
