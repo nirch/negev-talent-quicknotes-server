@@ -17,9 +17,6 @@ app.use(logger);
 
 // Routes
 app.get("/", async (req, res) => {
-  const [results, metadata] = await sequelize.query("SELECT * FROM test_connection;");
-  console.log(results);
-  // console.log(metadata);
   res.send("Hello Express!");
 });
 
