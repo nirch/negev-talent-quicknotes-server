@@ -23,17 +23,18 @@ async function getNoteById(id) {
   return results[0];
 }
 
-async function addNote(newNote) {
+async function addNote(newNote, userId) {
   const query = `
-  INSERT INTO notes (title, text, date)
-  VALUES (:title, :text, NOW())
+  INSERT INTO notes (title, text, date, user_id)
+  VALUES (:title, :text, NOW(), :userId)
   RETURNING id
   `
 
   const [createdId] = await sequelize.query(query, {
     replacements: {
       title: newNote.title,
-      text: newNote.text
+      text: newNote.text,
+      userId
     }
   });
 

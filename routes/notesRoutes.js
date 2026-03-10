@@ -5,9 +5,9 @@ const { authenticate } = require("../middlewares/authenticate");
 const router = express.Router();
 
 
-router.get("/", authenticate, getNotes);              // GET /notes/
-router.get("/orm", getNotesORM);              // GET /notes/orm
-router.get("/:id", getNoteById);        // GET /notes/:id
-router.post("/", noteValidation, addNote);              // POST /notes
+router.get("/", authenticate, getNotes);                              // GET /notes/
+router.get("/orm", getNotesORM);                                      // GET /notes/orm
+router.get("/:id", getNoteById);                                      // GET /notes/:id
+router.post("/", authenticate, noteValidation, addNote);              // POST /notes
 
 module.exports = router;

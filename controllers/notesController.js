@@ -28,7 +28,7 @@ async function getNoteById(req, res) {
 
 async function addNote(req, res) {
   const noteDraft = req.body;
-  const newNote = await notesModel.addNote(noteDraft);
+  const newNote = await notesModel.addNote(noteDraft, req.user.id);
   res.status(201).json(newNote);
 }
 
